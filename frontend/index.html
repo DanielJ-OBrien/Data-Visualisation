@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home Screen</title>
+	<link rel="stylesheet" type="text/css" href="resources/styles.css">
+    <script>
+        var check = 0;
+        // Function to fetch data from the API
+        function fetchData() {
+            fetch('http://localhost/server/data')
+                .then(response => response.json())
+                .then(data => {
+                    responseData = data;
+                    responseData.sort((a, b) => a.IDS - b.IDS);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+        fetchData();
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
+</head>
+<body>
+
+    <div id="bg">
+        <img src="resources/bg.png" id="bgimage">
+    </div>
+
+	<div id="banner">
+        <!-- These will load the relevant page from the button. Note that the visualisation page refetches the data so its always up to date. -->
+		<h1>Car Insurance Claims Visualisation</h1>
+		<button id="b1" onclick="loadPage('html/viewdata.html', fetchData())">View Data</button>
+		<button id="b2" onclick="loadPage('html/adddata.html')">Add Data</button>
+		<button id="b3" onclick="loadPage('html/editdata.html')">Edit Data</button>
+		<button id="b4" onclick="loadPage('html/deletedata.html')">Delete Data</button>
+	</div>
+
+	<div id="content"></div>
+
+	<script src="scripts/loadpagescript.js"></script>
+</body>
+</html>
+

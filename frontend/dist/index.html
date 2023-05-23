@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chart.js Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <canvas id="myChart"></canvas>
+
+    <script>// Variable holding data in JSON format
+var jsonData = [
+    {
+        label: "Apple",
+        value: 10
+    },
+    {
+        label: "Orange",
+        value: 15
+    },
+    {
+        label: "Banana",
+        value: 7
+    },
+    {
+        label: "Mango",
+        value: 12
+    },
+    {
+        label: "Grapes",
+        value: 5
+    }
+];
+// Convert JSON data to arrays for labels and values
+var labels = jsonData.map((item)=>item.label);
+var values = jsonData.map((item)=>item.value);
+// Create chart using Chart.js
+var ctx = document.getElementById("myChart").getContext("2d");
+var myChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+        labels: labels,
+        datasets: [
+            {
+                label: "Fruit Count",
+                data: values,
+                backgroundColor: "rgba(75, 192, 192, 0.2)",
+                borderColor: "rgba(75, 192, 192, 1)",
+                borderWidth: 1
+            }
+        ]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+</script>
+<script src="/htdocs.59712999.js"></script></body>
+</html>

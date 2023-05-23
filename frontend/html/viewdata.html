@@ -1,0 +1,201 @@
+<div id="viewDataContainer">
+  <div class="column">
+      <p>Graph 1, Average Vehicle Type Usage:</p>
+      <canvas id="myChart1" class="chart"></canvas>
+      <p>Graph 3, Sum of incomes by car type ($):</p>
+      <canvas id="myChart3" class="chart"></canvas>
+      <p>Graph 5, Average house price by profession ($):</p>
+      <canvas id="myChart5" class="chart"></canvas>
+  </div>
+  <div class="column">
+      <p>Graph 2, Total of claims in $ by car type:</p>
+      <canvas id="myChart2" class="chart"></canvas>
+      <p>Graph 4, Average bluebook value by car age:</p>
+      <canvas id="myChart4" class="chart"></canvas>
+      <p>Graph 6, % of customers with x kids driving:</p>
+      <canvas id="myChart6" class="chart"></canvas>
+  </div>
+</div>
+
+<p>Graph 7, Custom Graph:</p>
+<div id="customGraphContainer">
+
+  <select id="xAxisSelect"></select>
+  <select id="yAxisSelect"></select>
+
+  <select id="chartTypeSelect">
+      <option value="bar">Bar Chart</option>
+      <option value="doughnut">Doughnut Chart</option>
+      <option value="line">Line Chart</option>
+      <option value="pie">Pie Chart</option>
+  </select>
+
+  <select id="aggregationSelect">
+      <option value=true>Average</option>
+      <option value="Percentage">Percentage</option>
+      <option value=false>Total</option>
+  </select>
+
+  <button id="generateChartButton">Generate Chart</button>
+
+  <canvas id="myChart7" class="chart"></canvas>
+</div>
+
+<script>
+
+var dropdown = document.getElementById("xAxisSelect");
+var dropdown2 = document.getElementById("yAxisSelect");
+var json = responseData[0];
+var keys = Object.keys(json).sort(); 
+keys.forEach(function(key) {
+  var option = document.createElement("option");
+  option.text = key;
+  
+  var option2 = document.createElement("option");
+  option2.text = key;
+
+  dropdown.appendChild(option);
+  dropdown2.appendChild(option2);
+});
+
+var data = aggregateData("CAR_TYPE", "TRAVTIME", true);
+
+var maxValue = Math.max.apply(null, data.values);
+var yMax = Math.ceil(maxValue);
+var minValue = Math.min.apply(null, data.values);
+var yMin = Math.ceil(minValue);
+
+createGraph("myChart1", "bar", data.labels, data.values, ['rgba(153, 204, 255, 0.5)', 'rgba(102, 153, 255, 0.5)', 'rgba(51, 102, 255, 0.5)', 'rgba(51, 76, 204, 0.5)', 'rgba(51, 51, 153, 0.5)', 'rgba(0, 0, 102, 0.5)'], "Average travel time by vehicle type (hours)");
+
+var data = aggregateData("CAR_TYPE", "CLM_AMT", false);
+createGraph("myChart2", "pie", data.labels, data.values, ['rgba(255, 153, 153, 0.8)', 'rgba(255, 102, 102, 0.8)', 'rgba(255, 51, 51, 0.8)', 'rgba(204, 51, 51, 0.8)', 'rgba(153, 51, 51, 0.8)', 'rgba(102, 51, 51, 0.8)']);
+
+var data = aggregateData("CAR_TYPE", "INCOME", false);
+createGraph("myChart3", "doughnut", data.labels, data.values, ['rgba(153, 102, 204, 0.25)', 'rgba(128, 51, 204, 0.25)', 'rgba(102, 0, 204, 0.25)', 'rgba(77, 0, 153, 0.25)', 'rgba(51, 0, 102, 0.25)', 'rgba(26, 0, 51, 0.25)']);
+
+var data = aggregateData("CAR_AGE", "BLUEBOOK", true);
+createGraph("myChart4", "bar", data.labels, data.values, ['rgba(255, 204, 153, 0.5)', 'rgba(255, 178, 102, 0.5)', 'rgba(255, 153, 51, 0.5)', 'rgba(255, 128, 0, 0.5)', 'rgba(255, 102, 0, 0.5)', 'rgba(255, 77, 0, 0.5)'], "Average bluebook value by car age ($, Years)");
+
+var data = aggregateData("OCCUPATION", "HOME_VAL", true);
+createGraph("myChart5", "bar", data.labels, data.values, ["rgba(178, 255, 216, 0.5)", "rgba(102, 255, 230, 0.5)", "rgba(51, 255, 204, 0.5)", "rgba(51, 204, 187, 0.5)", "rgba(51, 204, 204, 0.5)", "rgba(0, 153, 153, 0.5)",], "Average house price by profession ($)");
+
+var data = aggregateData("KIDSDRIV", "KIDSDRIV", "Percentage");
+createGraph("myChart6", "pie", data.labels, data.values, ['rgba(255, 255, 153, 0.75)', 'rgba(255, 255, 102, 0.75)', 'rgba(255, 255, 51, 0.75)', 'rgba(204, 204, 51, 0.75)', 'rgba(204, 204, 0, 0.75)', 'rgba(153, 153, 0, 0.75)']);
+
+var graph7;
+document.getElementById('generateChartButton').addEventListener('click', generateCustomGraph);
+
+function generateCustomGraph(){
+
+  var chart7 = document.getElementById('myChart7');
+  if (graph7) {
+      graph7.destroy();
+      graph7 = null;
+  }
+
+  var selectedXAxis = document.getElementById('xAxisSelect').value;
+  var selectedYAxis = document.getElementById('yAxisSelect').value;
+  var selectedChartType = document.getElementById('chartTypeSelect').value;
+  var selectedAggregation = document.getElementById('aggregationSelect').value;
+
+  var data = aggregateData(selectedXAxis, selectedYAxis, selectedAggregation);
+  createGraph("myChart7", selectedChartType, data.labels, data.values, ['rgba(255, 102, 102, 0.8)', 'rgba(255, 178, 102, 0.8)', 'rgba(255, 255, 51, 0.75)', 'rgba(51, 204, 187, 0.5)', 'rgba(51, 0, 102, 0.5)', 'rgba(0, 0, 102, 0.5)'], "Selected data");
+}
+
+function aggregateData(desiredLabel, desiredValue, isAverage) {
+  var aggregatedData = responseData.reduce((acc, curr) => {
+    var labels = curr[desiredLabel];
+    var values = curr[desiredValue];
+
+    if (values === null || values === undefined || values === '') {
+    return acc;
+    }
+
+    if (typeof values !== 'string') {
+      values = String(values);
+    }
+
+    values = parseInt(values.replace(/\D/g, ''))
+
+    if (acc[labels]) {
+      acc[labels].count += 1;
+      if(isAverage == "Percentage"){
+        acc[labels].totalValues += 1;
+      }
+      else{
+        acc[labels].totalValues += values;
+      }
+    }
+    else {
+      acc[labels] = { count: 1, totalValues: values };
+    }
+
+    return acc;
+  }, {});
+
+  var labels = Object.keys(aggregatedData);
+  if(isAverage == true || isAverage == "true"){
+    var values = labels.map(label => aggregatedData[label].totalValues / aggregatedData[label].count);
+  }
+  else if(isAverage == "Percentage"){
+    var totalCount = responseData.length;
+    var values = labels.map(label => (aggregatedData[label].totalValues / totalCount) * 100);
+  }
+  else{
+    var values = labels.map(label => aggregatedData[label].totalValues);
+  }
+
+  return { labels: labels, values: values };
+}
+
+function createGraph(graphID, graphType, labels, values, backgroundColor, label, yMin, yMax) {
+  var ctx1 = document.getElementById(graphID).getContext('2d');
+  var options = {
+    plugins: {
+      legend: {
+        labels: {
+          color: 'white'
+        }
+      }
+    },
+    aspectRatio: 2
+  };
+
+  if (graphType === 'bar') {
+    options.scales = {
+      y: {
+        beginAtZero: false,
+        ticks: {
+          color: 'white',
+          min: yMin,
+          max: yMax
+        }
+      },
+      x: {
+        ticks: {
+          color: 'white'
+        }
+      }
+    };
+  }
+
+  var myChart = new Chart(ctx1, {
+    type: graphType,
+    data: {
+      labels: labels,
+      datasets: [{
+        label: label,
+        data: values,
+        backgroundColor: backgroundColor,
+        borderColor: ['rgba(255, 255, 255, 1)'],
+        borderWidth: 1
+      }]
+    },
+    options: options
+  });
+  if(graphID == "myChart7"){
+    graph7 = myChart;
+  }
+}
+
+</script>

@@ -1,0 +1,78 @@
+<h1>Add Data</h1>
+<div id="addDataContainer">
+	<div class="column">
+	  <label for="idInput">ID:</label>
+	  <input type="number" id="idInput">
+	  <label for="yojInput">YOJ:</label>
+	  <input type="text" id="yojInput">
+	  <label for="genderInput">GENDER:</label>
+	  <input type="text" id="genderInput">
+	  <label for="bluebookInput">BLUEBOOK:</label>
+	  <input type="text" id="bluebookInput">
+	  <label for="clm_freqInput">CLM_FREQ:</label>
+	  <input type="number" id="clm_freqInput">
+	  <label for="claim_flagInput">CLAIM_FLAG:</label>
+	  <input type="number" id="claim_flagInput">
+	</div>
+	<div class="column">
+		<label for="kidsdrivInput">KIDSDRIV:</label>
+		<input type="number" max="1" id="kidsdrivInput">
+		<label for="incomeInput">INCOME:</label>
+		<input type="text" id="incomeInput">
+		<label for="educationInput">EDUCATION:</label>
+		<input type="text" id="educationInput">
+		<label for="tifInput">TIF:</label>
+		<input type="number" id="tifInput">
+		<label for="revokedInput">REVOKED:</label>
+		<input type="text" id="revokedInput">
+		<label for="urbanicityInput">URBANICITY:</label>
+		<input type="text" id="urbanicityInput">
+	</div>
+	<div class="column">
+		<label for="birthInput">BIRTH:</label>
+		<input type="text" id="birthInput">
+		<label for="parent1Input">PARENT1:</label>
+		<input type="text" id="parent1Input">
+		<label for="occupationInput">OCCUPATION:</label>
+		<input type="text" id="occupationInput">
+		<label for="car_typeInput">CAR_TYPE:</label>
+		<input type="text" id="car_typeInput">
+		<label for="mvr_ptsInput">MVR_PTS:</label>
+		<input type="number" id="mvr_ptsInput">
+	</div>
+	<div class="column">
+		<label for="ageInput">AGE:</label>
+		<input type="number" id="ageInput">
+		<label for="home_valInput">HOME_VAL:</label>
+		<input type="text" id="home_valInput">
+		<label for="travtimeInput">TRAVTIME:</label>
+		<input type="number" id="travtimeInput">
+		<label for="red_carInput">RED_CAR:</label>
+		<input type="text" id="red_carInput">
+		<label for="clm_amtInput">CLM_AMT:</label>
+		<input type="text" id="clm_amtInput">
+	</div>
+	<div class="column">
+		<label for="homekidsInput">HOMEKIDS:</label>
+		<input type="number" id="homekidsInput">
+		<label for="mstatusInput">MSTATUS:</label>
+		<input type="text" id="mstatusInput">
+		<label for="car_useInput">CAR_USE:</label>
+		<input type="text" id="car_useInput">
+		<label for="oldclaimInput">OLDCLAIM:</label>
+		<input type="text" id="oldclaimInput">
+		<label for="car_ageInput">CAR_AGE:</label>
+		<input type="text" id="car_ageInput">
+	</div>
+	<button id="submitBtn">Submit</button>
+		<script>
+			var script = document.createElement("script");
+			script.src = "scripts/adddatascript.js";
+			script.onload = function() {
+			};
+			document.getElementById("addDataContainer").appendChild(script);
+		</script>
+</div>
+<p id="responseMessage"></p>
+
+

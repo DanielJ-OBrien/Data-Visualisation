@@ -1,0 +1,153 @@
+<h1>Delete Data</h1>
+<div id="deleteDataContainer">
+	<div class="column">
+	  <label for="idInput">ID:</label>
+	  <select id="idInput"></select>
+	  <label for="yojInput">YOJ:</label>
+	  <input type="text" id="yojInput" readonly>
+	  <label for="genderInput">GENDER:</label>
+	  <input type="text" id="genderInput" readonly>
+	  <label for="bluebookInput">BLUEBOOK:</label>
+	  <input type="text" id="bluebookInput" readonly>
+	  <label for="clm_freqInput">CLM_FREQ:</label>
+	  <input type="number" id="clm_freqInput" readonly>
+	  <label for="claim_flagInput">CLAIM_FLAG:</label>
+	  <input type="number" id="claim_flagInput" readonly>
+	</div>
+	<div class="column">
+		<label for="kidsdrivInput">KIDSDRIV:</label>
+		<input type="number" max="1" id="kidsdrivInput" readonly>
+		<label for="incomeInput">INCOME:</label>
+		<input type="text" id="incomeInput" readonly>
+		<label for="educationInput">EDUCATION:</label>
+		<input type="text" id="educationInput" readonly>
+		<label for="tifInput">TIF:</label>
+		<input type="number" id="tifInput" readonly>
+		<label for="revokedInput">REVOKED:</label>
+		<input type="text" id="revokedInput" readonly>
+		<label for="urbanicityInput">URBANICITY:</label>
+		<input type="text" id="urbanicityInput" readonly>
+	</div>
+	<div class="column">
+		<label for="birthInput">BIRTH:</label>
+		<input type="text" id="birthInput" readonly>
+		<label for="parent1Input">PARENT1:</label>
+		<input type="text" id="parent1Input" readonly>
+		<label for="occupationInput">OCCUPATION:</label>
+		<input type="text" id="occupationInput" readonly>
+		<label for="car_typeInput">CAR_TYPE:</label>
+		<input type="text" id="car_typeInput" readonly>
+		<label for="mvr_ptsInput">MVR_PTS:</label>
+		<input type="number" id="mvr_ptsInput" readonly>
+	</div>
+	<div class="column">
+		<label for="ageInput">AGE:</label>
+		<input type="number" id="ageInput" readonly>
+		<label for="home_valInput">HOME_VAL:</label>
+		<input type="text" id="home_valInput" readonly>
+		<label for="travtimeInput">TRAVTIME:</label>
+		<input type="number" id="travtimeInput" readonly>
+		<label for="red_carInput">RED_CAR:</label>
+		<input type="text" id="red_carInput" readonly>
+		<label for="clm_amtInput">CLM_AMT:</label>
+		<input type="text" id="clm_amtInput" readonly>
+	</div>
+	<div class="column">
+		<label for="homekidsInput">HOMEKIDS:</label>
+		<input type="number" id="homekidsInput" readonly>
+		<label for="mstatusInput">MSTATUS:</label>
+		<input type="text" id="mstatusInput" readonly>
+		<label for="car_useInput">CAR_USE:</label>
+		<input type="text" id="car_useInput" readonly>
+		<label for="oldclaimInput">OLDCLAIM:</label>
+		<input type="text" id="oldclaimInput" readonly>
+		<label for="car_ageInput">CAR_AGE:</label>
+		<input type="text" id="car_ageInput" readonly>
+	</div>
+	<button id="deletesubmitBtn">Submit</button>
+		<script>
+			var script3 = document.createElement("script");
+			script3.src = "scripts/deletedatascript.js";
+			script3.onload = function() {
+			};
+			document.getElementById("deleteDataContainer").appendChild(script3);
+			var dropdown = document.getElementById("idInput");
+		var kidsdrivValue = document.getElementById('kidsdrivInput');
+		var birthValue = document.getElementById('birthInput');
+		var ageValue = document.getElementById('ageInput');
+		var homekidsValue = document.getElementById('homekidsInput');
+		var yojValue = document.getElementById('yojInput');
+		var incomeValue = document.getElementById('incomeInput');
+		var parent1Value = document.getElementById('parent1Input');
+		var home_valValue = document.getElementById('home_valInput');
+		var mstatusValue = document.getElementById('mstatusInput');
+		var genderValue = document.getElementById('genderInput');
+		var educationValue = document.getElementById('educationInput');
+		var occupationValue = document.getElementById('occupationInput');
+		var travtimeValue = document.getElementById('travtimeInput');
+		var car_useValue = document.getElementById('car_useInput');
+		var bluebookValue = document.getElementById('bluebookInput');
+		var tifValue = document.getElementById('tifInput');
+		var car_typeValue = document.getElementById('car_typeInput');
+		var red_carValue = document.getElementById('red_carInput');
+		var oldclaimValue = document.getElementById('oldclaimInput');
+		var clm_freqValue = document.getElementById('clm_freqInput');
+		var revokedValue = document.getElementById('revokedInput');
+		var mvr_ptsValue = document.getElementById('mvr_ptsInput');
+		var clm_amtValue = document.getElementById('clm_amtInput');
+		var car_ageValue = document.getElementById('car_ageInput');
+		var claim_flagValue = document.getElementById('claim_flagInput');
+		var urbanicityValue = document.getElementById('urbanicityInput');
+
+		  responseData.sort(function(a, b) {
+			return a.IDS - b.IDS;
+		});
+
+		for (var i = 0; i < responseData.length; i++) {
+		  var option = document.createElement("option");
+		  option.text = responseData[i].IDS;
+		  option.value = responseData[i].IDS;
+		  dropdown.appendChild(option);
+		}
+
+		dropdown.addEventListener("change", function() {
+			var selectedId = dropdown.value;
+			var selectedData = responseData.find(function(item) {
+				return item.IDS == selectedId;
+			});
+
+			kidsdrivInput.value = selectedData.KIDSDRIV;
+			birthInput.value = selectedData.BIRTH;
+			ageInput.value = selectedData.AGE;
+			homekidsInput.value = selectedData.HOMEKIDS;
+			yojInput.value = selectedData.YOJ;
+			incomeInput.value = selectedData.INCOME;
+			parent1Input.value = selectedData.PARENT1;
+			home_valInput.value = selectedData.HOME_VAL;
+			mstatusInput.value = selectedData.MSTATUS;
+			genderInput.value = selectedData.GENDER;
+			educationInput.value = selectedData.EDUCATION;
+			occupationInput.value = selectedData.OCCUPATION;
+			travtimeInput.value = selectedData.TRAVTIME;
+			car_useInput.value = selectedData.CAR_USE;
+			bluebookInput.value = selectedData.BLUEBOOK;
+			tifInput.value = selectedData.TIF;
+			car_typeInput.value = selectedData.CAR_TYPE;
+			red_carInput.value = selectedData.RED_CAR;
+			oldclaimInput.value = selectedData.OLDCLAIM;
+			clm_freqInput.value = selectedData.CLM_FREQ;
+			revokedInput.value = selectedData.REVOKED;
+			mvr_ptsInput.value = selectedData.MVR_PTS;
+			clm_amtInput.value = selectedData.CLM_AMT;
+			car_ageInput.value = selectedData.CAR_AGE;
+			claim_flagInput.value = selectedData.CLAIM_FLAG;
+			urbanicityInput.value = selectedData.URBANICITY;
+		});
+
+		</script>
+</div>
+<p id="responseMessage"></p>
+
+
+
+
